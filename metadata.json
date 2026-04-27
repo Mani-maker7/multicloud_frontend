@@ -1,0 +1,6 @@
+{
+  "name": "Multi-Cloud Sales Analytics",
+  "description": "A production-ready sales dashboard integrating AWS for file processing and GCP for analytics visualization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
