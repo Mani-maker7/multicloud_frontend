@@ -141,7 +141,7 @@ if (onSuccess) {
                   className="flex flex-col items-center"
                 >
                   <FileJson className="w-8 h-8 text-slate-300 mb-3" />
-                  <p className="text-sm font-bold">Drop sales_data.csv</p>
+                  <p className="text-sm font-bold">Drop csv file</p>
                   <p className="text-xs text-slate-400">Max 10MB</p>
                 </motion.div>
               )}
