@@ -12,6 +12,32 @@ const COLORS = ['#0f172a', '#334155', '#64748b', '#94a3b8', '#cbd5e1'];
 export default function Dashboard({ externalData }: { externalData: AnalyticsResponse | null }) {
   const data = externalData;
 
+  let insights = null;
+
+if (data?.data?.length) {
+  const sorted = [...data.data].sort((a, b) => b.revenue - a.revenue);
+
+  const topProduct = sorted[0];
+
+  const totalRevenue = data.data.reduce((sum, i) => sum + i.revenue, 0);
+
+  const top3 = sorted.slice(0, 3);
+  const top3Revenue = top3.reduce((sum, i) => sum + i.revenue, 0);
+
+  const dominance = totalRevenue
+    ? ((top3Revenue / totalRevenue) * 100).toFixed(1)
+    : "0";
+
+  const lowPerformers = sorted.slice(-2).map(p => p.product);
+
+  insights = {
+    topProduct: topProduct.product,
+    topRevenue: topProduct.revenue,
+    dominance,
+    lowPerformers
+  };
+}
+
   const [page, setPage] = useState(0);
   const ITEMS_PER_PAGE = 6;
 
@@ -59,6 +85,23 @@ export default function Dashboard({ externalData }: { externalData: AnalyticsRes
       </div>
 
       {/* KPI Cards */}
+      {insights && (
+  <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+    <h3 className="text-sm font-bold text-slate-600 mb-4 uppercase tracking-widest">
+      Insights
+    </h3>
+
+    <div className="grid grid-cols-2 gap-y-3 text-sm text-slate-700">
+
+      <p>🔥 Top Product: <b>{insights.topProduct}</b></p>
+      <p>📊 Top 3 Contribution: {insights.dominance}%</p>
+
+      <p>💰 Revenue: ₹{insights.topRevenue}</p>
+      <p>⚠️ Low Performers: {insights.lowPerformers.join(", ")}</p>
+
+    </div>
+  </div>
+)}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <motion.div 
